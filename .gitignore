@@ -1,5 +1,9 @@
-tmp/
-.swp
+# Temporary files for compilation
+*.swp
+*.jar
+*.class
+*.java
+*.mf
 
 # Logs
 logs

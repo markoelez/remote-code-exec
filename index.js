@@ -6,18 +6,18 @@ const fs = require('fs')
 var app = express()
 
 const BASE_CLASS = `
-class Temp {
+class tmp {
   public static void main(String[] args) {
     PLACEHOLDER
   }
 }
 `
-const MF_TEMPLATE = `Manifest-Version: 1.0\nMain-Class: Temp
+const MF_tmpLATE = `Manifest-Version: 1.0\nMain-Class: tmp
 `
 const COMMANDS = [
-	'javac Temp.java',
-	'jar cmf Temp.mf Temp.jar Temp.class Temp.java',
-	'java -jar Temp.jar'
+	'javac tmp.java',
+	'jar cmf MANIFEST.mf tmp.jar tmp.class tmp.java',
+	'java -jar tmp.jar'
 ]
 
 const execCommand = cmd => {
@@ -36,15 +36,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/', (req, res) => {
-	res.send('hello world!')
-})
-
 app.post('/test', (req, res) => {
-	let temp_prog = BASE_CLASS.replace('PLACEHOLDER', req.body.program_body)
-	fs.writeFile('Temp.java', temp_prog, err => {
+	let tmp_prog = BASE_CLASS.replace('PLACEHOLDER', req.body.program_body)
+	fs.writeFile('tmp.java', tmp_prog, err => {
 		if (err) throw err
-		fs.writeFile('Temp.mf', MF_TEMPLATE, err => {
+		fs.writeFile('MANIFEST.mf', MF_tmpLATE, err => {
 			if (err) throw err
 			console.log('Saved file!')
 			COMMANDS.reduce((prev, curr) => {
@@ -59,23 +55,24 @@ app.post('/test', (req, res) => {
 				})
 			}, Promise.resolve([]))
 				.then(outputs => {
-					// res.send(outputs[0])
-					// docker run -v Temp.jar:/Temp.jar boot:latest Temp.jar
-					exec(
-						'docker run -v Temp.jar:/Temp.jar boot:latest Temp.jar',
-						(error, stdout, stderr) => {
-							if (error) return console.log(error)
-							if (stderr) return console.log(stderr)
-							console.log(stdout)
-							res.send(stdout)
-						}
-					)
+					console.log(outputs)
+					res.send(outputs[0])
+					// docker run -v tmp.jar:/tmp.jar boot:latest tmp.jar
+					// exec(
+					// 	'docker run -v tmp.jar:/tmp.jar boot:latest tmp.jar',
+					// 	(error, stdout, stderr) => {
+					// 		if (error) return console.log(error)
+					// 		if (stderr) return console.log(stderr)
+					// 		console.log(stdout)
+					// 		res.send(stdout)
+					// 	}
+					// )
 				})
 				.catch(err => res.send(err))
 		})
 	})
 })
 
-app.listen(3001, () => {
-	console.log('App listening on port 3001...')
+app.listen(3002, () => {
+	console.log('App listening on port 3002...')
 })

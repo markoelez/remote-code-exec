@@ -6,12 +6,11 @@ class TaskController {
 		// do nothing
 	}
 
-	async runTask(req, res) {
+	async deployJava(req, res) {
+		const body = req.body
+
 		try {
-			const body = req.body
-
-			const stdout = await TaskProvider.runTask(body.data)
-
+			const stdout = await TaskProvider.deployJava(body.data)
 			res.status(200).send(stdout)
 		} catch (e) {
 			const errorCode = e.code | 500

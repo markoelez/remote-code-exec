@@ -1,16 +1,20 @@
 const fs = require('fs').promises
 const streams = require('memory-streams')
-const { BASE, PLACEHOLDER } = require('./helpers')
+const { getBaseFromTestCases } = require('./helpers')
 const Docker = require('dockerode')
 
 const docker = new Docker()
 
 const JSService = function() {
-	this.deploy = async data => {
+	this.deploy = async (data, testCaseData) => {
+		const base = getBaseFromTestCases(
+			testCaseData.baseMethod,
+			testCaseData.data,
+			data
+		)
 		try {
-			const proc_data = BASE.replace(PLACEHOLDER, data)
 			// write input js class
-			await fs.writeFile('tmp.js', proc_data)
+			await fs.writeFile('tmp.js', base)
 			// run node file
 			const output = await runNode('tmp')
 			return output

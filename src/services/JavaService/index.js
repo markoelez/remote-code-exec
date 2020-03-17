@@ -1,17 +1,21 @@
 const fs = require('fs').promises
 const streams = require('memory-streams')
-const { BASE } = require('./helpers')
+const { BASE, getBaseFromTestCases } = require('./helpers')
 const Docker = require('dockerode')
 
 const docker = new Docker()
 
 const JavaService = function() {
-	this.deploy = async (data, testCases) => {
+	this.deploy = async (data, testCaseData) => {
+		const base = getBaseFromTestCases(
+			testCaseData.baseMethod,
+			testCaseData.data
+		)
 		try {
 			// write input java class
 			await fs.writeFile('Solution.java', data)
 			// write base java class
-			await fs.writeFile('Main.java', BASE)
+			await fs.writeFile('Main.java', base)
 			// compile base
 			await runCompile('Main.java')
 			// compile input

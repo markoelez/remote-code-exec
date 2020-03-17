@@ -7,12 +7,12 @@ class TaskController {
 	}
 
 	async deployJava(req, res) {
-		const { data, testCases } = req.body
+		const { data, testCaseData } = req.body
 		console.log('data: ', data)
-		console.log('testCases: ', testCases)
+		console.log('testCases: ', testCaseData)
 		const TaskProvider = new JavaService()
 		try {
-			const stdout = await TaskProvider.deploy(data, testCases)
+			const stdout = await TaskProvider.deploy(data, testCaseData)
 			console.log('response: ', stdout)
 
 			res.status(200).send(stdout)
@@ -23,12 +23,12 @@ class TaskController {
 	}
 
 	async deployJS(req, res) {
-		const { data, testCases } = req.body
+		const { data, testCaseData } = req.body
 		console.log('data: ', data)
-		console.log('testCases: ', testCases)
+		console.log('testCases: ', testCaseData)
 		const TaskProvider = new JSService()
 		try {
-			const stdout = await TaskProvider.deploy(data, testCases)
+			const stdout = await TaskProvider.deploy(data, testCaseData)
 			console.log('response: ', stdout)
 
 			res.status(200).send(stdout)

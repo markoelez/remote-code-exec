@@ -13,7 +13,7 @@ const initializeExpress = () => {
 	app.use(bodyParser.json())
 	app.use(cors())
 
-	// setup routers
+	// setup routers by language
 	app.use('/api/tasks/', taskRouter)
 
 	const port = process.env.PORT || 5000

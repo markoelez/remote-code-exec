@@ -1,5 +1,5 @@
-const TaskService = require('../services/TaskService')
-const TaskProvider = new TaskService()
+const JavaService = require('../services/JavaService')
+const JSService = require('../services/JSService')
 
 class TaskController {
 	constructor() {
@@ -10,9 +10,9 @@ class TaskController {
 		const { data, testCases } = req.body
 		console.log('data: ', data)
 		console.log('testCases: ', testCases)
-
+		const TaskProvider = new JavaService()
 		try {
-			const stdout = await TaskProvider.deployJava(data, testCases)
+			const stdout = await TaskProvider.deploy(data, testCases)
 			console.log('response: ', stdout)
 
 			res.status(200).send(stdout)
@@ -23,11 +23,12 @@ class TaskController {
 	}
 
 	async deployJS(req, res) {
-		const data = req.body.data
-		console.log('request: ', data)
-
+		const { data, testCases } = req.body
+		console.log('data: ', data)
+		console.log('testCases: ', testCases)
+		const TaskProvider = new JSService()
 		try {
-			const stdout = await TaskProvider.deployJS(data)
+			const stdout = await TaskProvider.deploy(data, testCases)
 			console.log('response: ', stdout)
 
 			res.status(200).send(stdout)

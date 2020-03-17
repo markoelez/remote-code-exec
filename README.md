@@ -4,10 +4,10 @@
 
 Base URL: `/api/tasks`
 
-| URL | Method | Description | Parameters |
-|:-------------------------------:|:------:|:---------------------------------------:|:-----------------------------------:|
-| /java | POST | Test Java program against provided testcases. | data & testCaseData |
-| /javascript | POST | Test JavaScript program against provided testcases. | data & testCaseData |
+|     URL     | Method |                     Description                     |     Parameters      |
+| :---------: | :----: | :-------------------------------------------------: | :-----------------: |
+|    `/java`    |  POST  |    Test Java program against provided testcases.    | data & testCaseData |
+| `/javascript` |  POST  | Test JavaScript program against provided testcases. | data & testCaseData |
 
 ## Format
 

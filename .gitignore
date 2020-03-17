@@ -5,6 +5,8 @@
 *.java
 *.mf
 
+tmp.js
+
 # Logs
 logs
 *.log

@@ -1,17 +1,22 @@
 const fs = require('fs').promises
 const streams = require('memory-streams')
-const { BASE_CLASS, PLACEHOLDER, UTILS_CLASS } = require('../../constants')
+const {
+	BASE_JAVA,
+	BASE_JS,
+	PLACEHOLDER,
+	UTILS_CLASS
+} = require('../../constants')
 const Docker = require('dockerode')
 
 const docker = new Docker()
 
 const TaskService = function() {
-	this.deployJava = async data => {
+	this.deployJava = async (data, testCases) => {
 		try {
 			// write input java class
 			await fs.writeFile('Solution.java', data)
 			// write base java class
-			await fs.writeFile('Main.java', BASE_CLASS)
+			await fs.writeFile('Main.java', BASE_JAVA)
 			// compile base
 			await runCompile('Main.java')
 			// compile input
@@ -27,10 +32,23 @@ const TaskService = function() {
 			console.log(e)
 		}
 	}
+
+	this.deployJS = async data => {
+		try {
+			const proc_data = BASE_JS.replace(PLACEHOLDER, data)
+			// write input js class
+			await fs.writeFile('tmp.js', proc_data)
+			// run node file
+			const output = await runNode('tmp')
+			return output
+		} catch (e) {
+			console.log(e)
+		}
+	}
 }
 
 const process_input = input => {
-	// const res = BASE_CLASS.replace(PLACEHOLDER, input)
+	// const res = BASE_JAVA.replace(PLACEHOLDER, input)
 	const classDef = 'class Solution '
 	const classBodyStartIDX = input.indexOf
 	return res
@@ -44,6 +62,18 @@ const runCompile = async file => {
 		},
 		WorkingDir: '/app'
 	})
+}
+
+const runNode = async file => {
+	const stdout = new streams.WritableStream()
+	await docker.run('node:8', ['node', `${file}`], stdout, {
+		HostConfig: {
+			AutoRemove: true,
+			Binds: [`${process.cwd()}:/app`]
+		},
+		WorkingDir: '/app'
+	})
+	return stdout.toString()
 }
 
 const runBinary = async file => {

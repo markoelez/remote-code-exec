@@ -5,4 +5,6 @@ const taskController = new TaskController()
 
 router.post('/java', taskController.deployJava)
 
+router.post('/javascript', taskController.deployJS)
+
 module.exports = router

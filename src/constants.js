@@ -1,4 +1,4 @@
-const BASE_CLASS = `
+const BASE_JAVA = `
 class Main {
   public static void main(String[] args) {
     // int ans = new Solution().fib(4);
@@ -47,6 +47,21 @@ class Main {
 }
 `
 
+const BASE_JS = `
+PLACEHOLDER
+const testCase1 = () => {
+  const input = 3
+  const expected = 2
+  const output = fib(input)
+  if (output === expected) {
+    console.log('TEST CASE 1 PASSED')
+  } else {
+    console.log('TEST CASE 1 FAILED')
+  }
+}
+testCase1()
+`
+
 const UTILS_CLASS = `
 class Utils {
   public static void assertTrue(int input1, int intput2) {
@@ -58,6 +73,7 @@ class Utils {
 const PLACEHOLDER = 'PLACEHOLDER'
 
 module.exports = {
-	BASE_CLASS,
+	BASE_JAVA,
+	BASE_JS,
 	PLACEHOLDER
 }

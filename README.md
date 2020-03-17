@@ -41,7 +41,7 @@ example.
     { input: 3, output: 2 },
     { input: 10, output: 55 }
   ]
-  }
+}
 ```
 
 The API will return a list of passed/failed testcases.
